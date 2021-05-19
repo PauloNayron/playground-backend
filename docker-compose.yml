@@ -1,0 +1,32 @@
+version: '3'
+
+volumes:
+  playground_data:
+
+services:
+  postgres:
+    image: postgres
+    volumes:
+      - playground_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: playground
+      POSTGRES_PASSWORD: playground
+    ports:
+      - 5432:5432
+  keycloak:
+    image: wizzn/keycloak:12
+    environment:
+      DB_VENDOR: "POSTGRES"
+      DB_ADDR: postgres
+      DB_DATABASE: postgres
+      DB_PORT: 5432
+      DB_SCHEMA: public
+      DB_USER: playground
+      DB_PASSWORD: playground
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: 1q2w3e4r
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres
