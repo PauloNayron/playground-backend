@@ -2,6 +2,7 @@ version: '3'
 
 volumes:
   playground_data:
+  playground_service:
 
 services:
   postgres_security:
@@ -30,3 +31,13 @@ services:
       - 8080:8080
     depends_on:
       - postgres_security
+  postgres_playground:
+    image: postgres
+    volumes:
+      - playground_service:/var/lib/postgresql/data_service
+    environment:
+      POSTGRES_DB: playground_service
+      POSTGRES_USER: playground_service
+      POSTGRES_PASSWORD: playground_service
+    ports:
+      - 5431:5432
