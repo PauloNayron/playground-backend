@@ -2,6 +2,7 @@ package com.example.playgroundbackend.config.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -10,6 +11,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtGra
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class BasicConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
@@ -18,7 +20,7 @@ public class BasicConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                     .authorizeRequests()
                         .antMatchers(HttpMethod.GET, "/hello")
-                            .hasAuthority("USER_ROLES")
+                            .hasAuthority("PLAYGROUND_USER")
                         .anyRequest()
                             .authenticated()
                 .and()
@@ -29,7 +31,7 @@ public class BasicConfiguration extends WebSecurityConfigurerAdapter {
 
     private JwtAuthenticationConverter getJwtAuthenticationConverter() {
         JwtGrantedAuthoritiesConverter converter = new JwtGrantedAuthoritiesConverter();
-        converter.setAuthoritiesClaimName("groups");
+        converter.setAuthoritiesClaimName("authorities");
         converter.setAuthorityPrefix("");
         JwtAuthenticationConverter authenticationConverter = new JwtAuthenticationConverter();
         authenticationConverter.setJwtGrantedAuthoritiesConverter(converter);
