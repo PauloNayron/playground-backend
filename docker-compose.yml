@@ -41,3 +41,11 @@ services:
       POSTGRES_PASSWORD: playground_service
     ports:
       - 5431:5432
+  localstack:
+    image: localstack/localstack
+    ports:
+      - "4576:4576"
+    environment:
+      - SERVICES=sqs
+      - AWS_DEFAULT_REGION=us-east-1
+      - EDGE_PORT=4576
