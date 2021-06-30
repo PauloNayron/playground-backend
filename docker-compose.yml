@@ -48,4 +48,6 @@ services:
     environment:
       - SERVICES=sqs
       - AWS_DEFAULT_REGION=us-east-1
+      - ACCESS_KEY=FAKE
+      - SECRET_KEY=FAKE
       - EDGE_PORT=4576
